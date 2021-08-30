@@ -1,20 +1,25 @@
 package main
 
 import (
+	"github.com/caarlos0/env"
 	"github.com/labstack/echo/v4"
+	"github.com/moooll/dogs-service/intenal/config"
 	"github.com/moooll/dogs-service/intenal/endpoints"
 	"github.com/moooll/dogs-service/intenal/storage"
 	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	// init config
-	// init storage
+	cfg := config.Config{}
+	err := env.Parse(&cfg)
+	if err != nil {
+		log.Errorln("error parsing config: ", err.Error())
+	}
+
 	st := storage.NewStorage()
 	service := endpoints.Service{
 		St: st,
 	}
-	// start server
 	e := echo.New()
 	e.POST("/dogs", service.Create)
 	e.GET("/dogs/:id", service.Read)

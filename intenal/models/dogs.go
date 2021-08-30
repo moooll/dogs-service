@@ -1,9 +1,11 @@
+// Package models provide models for endpoints and storage
 package models
 
 import (
 	"github.com/google/uuid"
 )
 
+// Dog is the model for endpoints and storage
 type Dog struct {
 	ID    uuid.UUID `json:"id"`
 	Name  string    `json:"name"`

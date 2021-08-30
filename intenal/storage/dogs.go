@@ -13,6 +13,13 @@ type Storage struct {
 	mu *sync.Mutex
 }
 
+func NewStorage() *Storage {
+	m := make(map[uuid.UUID]models.Dog)
+	return &Storage{
+		m,
+		&sync.Mutex{},
+	}	
+}
 func (st *Storage) Create(d models.Dog) error {
 	st.mu.Lock()
 	st.s[d.ID] = d

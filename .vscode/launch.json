@@ -11,7 +11,9 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {
-                "SERVER_PORT":":8080"
+                "SERVER_PORT":":8081",
+                "DATABASE_URI":"postgres://dogs_admin:1234@localhost:5432/dogs_catalog",
+                "JWT_SECRET":"JH>!%S/.u6$N"
             }
         }
     ]

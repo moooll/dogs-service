@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"github.com/moooll/dogs-service/internal/models"
+	log "github.com/sirupsen/logrus"
 	"github.com/twharmon/govalid"
 )
 
@@ -18,8 +19,25 @@ func NewValidator() *Validator {
 	}
 }
 
-func (v *Validator) validate(dog models.Dog) (vi []string, err error) {
-	vi, err = v.v.Violations(dog)
+// Register registers the type for validation
+func (v *Validator) Register() error {
+	err := v.v.Register(models.Dog{})
+	if err != nil {
+		log.Error("error updating dog: ", err.Error())
+		return err
+	}
+
+	er := v.v.Register(models.User{})
+	if er != nil {
+		log.Error("error updating dog: ", er.Error())
+		return er
+	}
+
+	return nil
+}
+
+func (v *Validator) validate(in interface{}) (vi []string, err error) {
+	vi, err = v.v.Violations(in)
 	if err != nil {
 		return vi, err
 	}

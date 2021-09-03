@@ -1,0 +1,132 @@
+basePath: /api/v1
+definitions:
+  echo.HTTPError:
+    properties:
+      message:
+        type: object
+    type: object
+  models.Dog:
+    properties:
+      age:
+        type: number
+      breed:
+        type: string
+      color:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a server for creating, reading, writing updating dogs.
+  title: Dogs API
+  version: "1.0"
+paths:
+  /dogs:
+    get:
+      description: return all dogs from storage
+      operationId: read-dogs
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Read all dogs
+    post:
+      consumes:
+      - application/json
+      description: read dog from the request body and write it to the storage
+      operationId: create-dog
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Create new dog
+    put:
+      consumes:
+      - application/json
+      description: read dog from the request body and update it in the storage, or
+        create if not exist
+      operationId: update-dog
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Update the dog by id
+  /dogs/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get id from request and delete a dog by id from storage
+      operationId: delete-dog
+      parameters:
+      - description: Dog ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/echo.HTTPError'
+      summary: Delete a dog by id
+  /login:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: get credentials from a form and authenticate or register a user
+      operationId: login
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      summary: Login or register a user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+swagger: "2.0"
